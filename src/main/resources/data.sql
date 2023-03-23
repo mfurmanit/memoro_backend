@@ -1,4 +1,5 @@
 TRUNCATE TABLE public.users CASCADE;
+-- TRUNCATE TABLE public.card_collections CASCADE;
 
 INSERT INTO public.users(id, created_date, modified_date, active, email, full_name, name, password, surname, username)
 VALUES ('54ef5d94-e58c-4dd7-970a-366caf6080f3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, true,
