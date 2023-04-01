@@ -3,6 +3,7 @@ package pl.mfurman.memoro.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.mfurman.memoro.dto.CardCollectionRequest;
@@ -14,7 +15,7 @@ import pl.mfurman.memoro.utils.exceptions.ApiException;
 
 import java.util.UUID;
 
-import static pl.mfurman.memoro.criteria.CardCollectionCriteria.userPredicate;
+import static pl.mfurman.memoro.criteria.CardCollectionCriteria.collectionPredicate;
 import static pl.mfurman.memoro.mappers.CardCollectionMapper.toEntity;
 import static pl.mfurman.memoro.utils.CommonUtil.getOrThrow;
 import static pl.mfurman.memoro.utils.StringConstants.WRONG_CONTEXT;
@@ -27,8 +28,8 @@ public class CardCollectionService {
 
   private final CardCollectionRepository repository;
 
-  public Page<CardCollectionResponse> getAll(final Pageable pageable) {
-    return repository.findAll(userPredicate(), pageable).map(CardCollectionMapper::toResponse);
+  public Page<CardCollectionResponse> getAll(final Pageable pageable, @Nullable final String value) {
+    return repository.findAll(collectionPredicate(value), pageable).map(CardCollectionMapper::toResponse);
   }
 
   public CardCollection getOneById(final UUID id) {
