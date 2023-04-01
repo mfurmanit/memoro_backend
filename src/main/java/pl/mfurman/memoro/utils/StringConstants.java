@@ -11,4 +11,5 @@ public interface StringConstants {
   String CANNOT_BE_NULL = "Wskazany obiekt nie może być pusty.";
   String ENTITY_NOT_FOUND = "Obiekt o podanym identyfikatorze nie istnieje.";
   String WRONG_CONTEXT = "Wskazana kolekcja nie należy do tego użytkownika.";
+  String GLOBAL_ERROR = "Wystąpił nieoczekiwany problem.";
 }

@@ -4,15 +4,18 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mfurman.memoro.dto.CardCollectionRequest;
 import pl.mfurman.memoro.dto.CardCollectionResponse;
+import pl.mfurman.memoro.enums.CardSide;
 import pl.mfurman.memoro.services.CardCollectionService;
 
 import java.util.UUID;
@@ -29,8 +32,11 @@ public class CardCollectionController {
   private final CardCollectionService service;
 
   @GetMapping(API_CARD_COLLECTIONS)
-  public Page<CardCollectionResponse> getAll(final Pageable pageable) {
-    return service.getAll(pageable);
+  public Page<CardCollectionResponse> getAll(
+    @PageableDefault final Pageable pageable,
+    @RequestParam(value = "value", required = false) final String value
+  ) {
+    return service.getAll(pageable, value);
   }
 
   @PostMapping(API_CARD_COLLECTIONS)

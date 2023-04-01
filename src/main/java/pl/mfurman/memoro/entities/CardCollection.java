@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -27,8 +28,10 @@ import java.util.Set;
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
+@ToString(onlyExplicitlyIncluded = true)
 public class CardCollection extends BaseEntity {
 
+  @ToString.Include
   @Column(nullable = false)
   private String name;
 
@@ -42,6 +45,7 @@ public class CardCollection extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "id_user", referencedColumnName = "id")
   @NotNull
+  @EqualsAndHashCode.Exclude
   private User user;
 
   @EqualsAndHashCode.Exclude

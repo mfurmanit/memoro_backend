@@ -15,4 +15,5 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class CardResponse extends CardRequest {
   private UUID id;
+  private boolean isFavorite;
 }
