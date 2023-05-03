@@ -1,8 +1,8 @@
-package pl.mfurman.memoro.main.expiring_map;
+package pl.mfurman.memoro.utils.expiring_map;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.mfurman.memoro.main.CardScheduler;
+import pl.mfurman.memoro.services.CardScheduler;
 
 @Getter
 @RequiredArgsConstructor

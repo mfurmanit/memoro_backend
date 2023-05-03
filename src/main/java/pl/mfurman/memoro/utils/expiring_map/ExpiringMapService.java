@@ -1,4 +1,4 @@
-package pl.mfurman.memoro.main.expiring_map;
+package pl.mfurman.memoro.utils.expiring_map;
 
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;

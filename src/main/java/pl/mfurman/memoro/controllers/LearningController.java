@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mfurman.memoro.dto.AnswerRequest;
 import pl.mfurman.memoro.dto.CardResponse;
-import pl.mfurman.memoro.entities.Card;
-import pl.mfurman.memoro.main.LearningService;
+import pl.mfurman.memoro.services.LearningService;
 
 import java.util.UUID;
 

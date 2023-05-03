@@ -1,4 +1,4 @@
-package pl.mfurman.memoro.main;
+package pl.mfurman.memoro.services;
 
 import lombok.Getter;
 import pl.mfurman.memoro.entities.Card;
@@ -79,4 +79,3 @@ public class CardScheduler {
     card.setNextReviewDate(LocalDateTime.now().plusDays(interval));
   }
 }
-

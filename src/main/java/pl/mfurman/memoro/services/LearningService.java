@@ -1,11 +1,10 @@
-package pl.mfurman.memoro.main;
+package pl.mfurman.memoro.services;
 
 import org.springframework.stereotype.Service;
 import pl.mfurman.memoro.entities.Card;
 import pl.mfurman.memoro.enums.Answer;
-import pl.mfurman.memoro.main.expiring_map.ExpiringMap;
-import pl.mfurman.memoro.main.expiring_map.ExpiringMapService;
-import pl.mfurman.memoro.services.CardService;
+import pl.mfurman.memoro.utils.expiring_map.ExpiringMap;
+import pl.mfurman.memoro.utils.expiring_map.ExpiringMapService;
 import pl.mfurman.memoro.utils.exceptions.ApiException;
 
 import java.util.UUID;
@@ -20,9 +19,9 @@ public class LearningService {
   private final CardService service;
   private final ExpiringMap<UUID, CardScheduler> schedulers;
 
-  public LearningService(final CardService repository,
+  public LearningService(final CardService service,
                          final ExpiringMapService expiringMapService) {
-    this.service = repository;
+    this.service = service;
     this.schedulers = new ExpiringMap<>(
       20, TimeUnit.MINUTES, null, expiringMapService.getExecutor()
     );
