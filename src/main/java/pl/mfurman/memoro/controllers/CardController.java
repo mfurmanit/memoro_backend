@@ -38,10 +38,11 @@ public class CardController {
   public Page<CardResponse> getAll(
     @PathVariable final UUID id,
     @PageableDefault final Pageable pageable,
+    @RequestParam(value = "onlyFavorites", required = false) final boolean onlyFavorites,
     @RequestParam(value = "side", required = false) final CardSide side,
     @RequestParam(value = "value", required = false) final String value
   ) {
-    return service.getAll(id, pageable, side, value);
+    return service.getAll(id, pageable, onlyFavorites, side, value);
   }
 
   @PostMapping(API_CARDS)

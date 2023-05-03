@@ -15,6 +15,7 @@ import static pl.mfurman.memoro.utils.UserUtil.getLoggedUserId;
 public class CardCriteria {
 
   public static Predicate cardPredicate(final UUID collectionId,
+                                        @Nullable final boolean onlyFavorites,
                                         @Nullable final CardSide side,
                                         @Nullable final String value) {
     final QCard qCard = QCard.card;
@@ -22,6 +23,8 @@ public class CardCriteria {
 
     builder.and(qCard.collection.id.eq(collectionId));
     builder.and(qCard.collection.user.id.eq(getLoggedUserId()));
+
+    if (onlyFavorites) builder.and(qCard.isFavorite.isTrue());
 
     if (side != null && hasText(value)) {
       return switch (side) {
