@@ -14,9 +14,11 @@ import pl.mfurman.memoro.enums.CardSide;
 import pl.mfurman.memoro.mappers.CardMapper;
 import pl.mfurman.memoro.repositories.CardRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 import static pl.mfurman.memoro.criteria.CardCriteria.cardPredicate;
+import static pl.mfurman.memoro.criteria.CardCriteria.reviewPredicate;
 import static pl.mfurman.memoro.mappers.CardMapper.toEntity;
 import static pl.mfurman.memoro.utils.CommonUtil.getOrThrow;
 
@@ -37,6 +39,10 @@ public class CardService {
 
   public Card getOneById(final UUID id) {
     return getOrThrow(repository.findById(id));
+  }
+
+  public List<Card> getAllForReview(final UUID collectionId) {
+    return repository.findAll(reviewPredicate(collectionId));
   }
 
   @Transactional
@@ -75,6 +81,11 @@ public class CardService {
   public void markAsFavorite(final UUID id) {
     final Card card = getOneById(id);
     card.setFavorite(!card.isFavorite());
+    repository.save(card);
+  }
+
+  @Transactional
+  public void saveAfterAnswer(final Card card) {
     repository.save(card);
   }
 }

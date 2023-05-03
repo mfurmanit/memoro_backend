@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
+
+import static java.time.LocalDateTime.now;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -30,6 +34,18 @@ public class Card extends BaseEntity {
 
   @Builder.Default
   private boolean isFavorite = false;
+
+  @Builder.Default
+  private double eFactor = 2.5;
+
+  @Builder.Default
+  private int interval = 0;
+
+  @Builder.Default
+  private int repetition = 0;
+
+  @Builder.Default
+  private LocalDateTime nextReviewDate = now();
 
   @ManyToOne
   @JoinColumn(name = "id_card_collection", referencedColumnName = "id")
