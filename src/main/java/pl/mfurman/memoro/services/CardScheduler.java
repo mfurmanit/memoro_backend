@@ -3,7 +3,6 @@ package pl.mfurman.memoro.services;
 import lombok.Getter;
 import pl.mfurman.memoro.entities.Card;
 import pl.mfurman.memoro.enums.Answer;
-import pl.mfurman.memoro.services.CardService;
 import pl.mfurman.memoro.utils.exceptions.ApiException;
 
 import java.time.LocalDateTime;
@@ -77,5 +76,6 @@ public class CardScheduler {
     card.setRepetition(repetition);
     card.setInterval(interval);
     card.setNextReviewDate(LocalDateTime.now().plusDays(interval));
+    card.setReviewed(true);
   }
 }

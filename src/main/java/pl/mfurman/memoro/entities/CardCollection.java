@@ -16,6 +16,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.HashSet;
@@ -23,6 +25,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@Audited
 @NoArgsConstructor
 @Table(name = "card_collections")
 @SuperBuilder(toBuilder = true)
@@ -42,14 +45,16 @@ public class CardCollection extends BaseEntity {
   @Builder.Default
   private long size = 0;
 
-  @ManyToOne
-  @JoinColumn(name = "id_user", referencedColumnName = "id")
   @NotNull
+  @ManyToOne
+  @NotAudited
+  @JoinColumn(name = "id_user", referencedColumnName = "id")
   @EqualsAndHashCode.Exclude
   private User user;
 
+  @NotAudited
+  @Builder.Default
   @EqualsAndHashCode.Exclude
   @OneToMany(mappedBy = "collection", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-  @Builder.Default
   private Set<Card> cards = new HashSet<>();
 }

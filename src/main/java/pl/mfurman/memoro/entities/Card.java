@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import static java.time.LocalDateTime.now;
 @NoArgsConstructor
 @Table(name = "cards")
 @SuperBuilder(toBuilder = true)
+@Audited(withModifiedFlag = true)
 @EqualsAndHashCode(callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
 public class Card extends BaseEntity {
@@ -46,6 +48,9 @@ public class Card extends BaseEntity {
 
   @Builder.Default
   private LocalDateTime nextReviewDate = now();
+
+  @Builder.Default
+  private boolean reviewed = false;
 
   @ManyToOne
   @JoinColumn(name = "id_card_collection", referencedColumnName = "id")
