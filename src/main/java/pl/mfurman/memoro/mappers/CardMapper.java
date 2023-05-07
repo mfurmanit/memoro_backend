@@ -27,6 +27,7 @@ public interface CardMapper {
     return card.toBuilder()
       .front(request.getFront())
       .back(request.getBack())
+      .reviewed(false)
       .build();
   }
 
