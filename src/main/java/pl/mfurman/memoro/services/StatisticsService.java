@@ -12,34 +12,25 @@ import org.hibernate.envers.query.AuditQuery;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import pl.mfurman.memoro.dto.DateRange;
-import pl.mfurman.memoro.dto.ReportTuple;
 import pl.mfurman.memoro.dto.StatisticsResponse;
 import pl.mfurman.memoro.dto.TimeTuple;
 import pl.mfurman.memoro.entities.Card;
+import pl.mfurman.memoro.utils.TimeDifferenceCollector;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 import static pl.mfurman.memoro.utils.CommonUtil.toStream;
+import static pl.mfurman.memoro.utils.StatisticsUtil.fillDateRangeWithZeros;
+import static pl.mfurman.memoro.utils.StatisticsUtil.mapCards;
 
 @Service
 @RequiredArgsConstructor
@@ -47,14 +38,6 @@ public class StatisticsService {
 
   @PersistenceContext
   private final EntityManager entityManager;
-
-  public static Map<LocalDate, Long> fillDateRangeWithZeros(Map<LocalDate, Long> inputMap, DateRange dateRange) {
-    long daysBetween = ChronoUnit.DAYS.between(dateRange.getFrom(), dateRange.getTo()) + 1;
-
-    return Stream.iterate(dateRange.getFrom(), date -> date.plusDays(1))
-      .limit(daysBetween)
-      .collect(Collectors.toMap(Function.identity(), date -> inputMap.getOrDefault(date, 0L), (a, b) -> a));
-  }
 
   @Transactional
   public StatisticsResponse prepareData(final DateRange dateRange, @Nullable final UUID collectionId) {
@@ -100,7 +83,7 @@ public class StatisticsService {
         // Truncate the time to the minute field (zeroing out seconds and nanoseconds),
         // and force the number of minutes to be at a 10-minute interval.
         return time.date().truncatedTo(ChronoUnit.MINUTES).withMinute(minutes - minutesOver);
-      }, timeDifferenceCollector()));
+      }, new TimeDifferenceCollector()));
 
     final Map<LocalDate, Long> dateSums = map.entrySet().stream()
       .collect(Collectors.groupingBy(entry -> entry.getKey().toLocalDate(),
@@ -108,60 +91,6 @@ public class StatisticsService {
 
     return fillDateRangeWithZeros(dateSums, dateRange);
   }
-
-  public static Collector<TimeTuple, List<TimeTuple>, Long> timeDifferenceCollector() {
-    return new Collector<>() {
-      @Override
-      public Supplier<List<TimeTuple>> supplier() {
-        return ArrayList::new;
-      }
-
-      @Override
-      public BiConsumer<List<TimeTuple>, TimeTuple> accumulator() {
-        return List::add;
-      }
-
-      @Override
-      public BinaryOperator<List<TimeTuple>> combiner() {
-        return (list1, list2) -> {
-          list1.addAll(list2);
-          return list1;
-        };
-      }
-
-      @Override
-      public Function<List<TimeTuple>, Long> finisher() {
-        return list -> {
-          if (list.size() > 1) {
-            LocalDateTime firstDate = list.get(0).date();
-            LocalDateTime lastDate = list.get(list.size() - 1).date();
-            return Duration.between(firstDate, lastDate).toSeconds();
-          } else {
-            return 0L;
-          }
-        };
-      }
-
-      @Override
-      public Set<Characteristics> characteristics() {
-        return EnumSet.noneOf(Characteristics.class);
-      }
-    };
-  }
-
-  public Map<LocalDate, Long> mapCards(final List<Object[]> result) {
-    return toStream(result)
-      .map(row -> new ReportTuple((UUID) row[0], ((LocalDateTime) row[1]).toLocalDate()))
-      .distinct()
-      .collect(groupingBy(ReportTuple::date, Collectors.counting()));
-  }
-
-//  public void generateReport(final DateRange dateRange, @Nullable final UUID collectionId, final ReportType type) {
-//    switch (type) {
-//      case VIEWED_CARDS -> getViewedCards(dateRange, collectionId);
-//      case REVIEW_TIME -> getReviewedCards(dateRange, collectionId);
-//    }
-//  }
 
   private AuditQuery prepareQueryForViewedCards(final AuditReader auditReader,
                                                 final DateRange dateRange,

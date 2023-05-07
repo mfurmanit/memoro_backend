@@ -3,7 +3,7 @@ package pl.mfurman.memoro.dto;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record ReportTuple(
+public record StatisticTuple(
   UUID id,
   LocalDate date
 ) {

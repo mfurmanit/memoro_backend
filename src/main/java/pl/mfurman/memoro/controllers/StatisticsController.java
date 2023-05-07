@@ -15,18 +15,14 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 public class StatisticsController {
-
-  public final static String API_STATISTICS = "/api/statistics/{collectionId}";
+  public final static String API_STATISTICS = "/api/statistics";
+  public final static String API_STATISTICS_ID = API_STATISTICS + "/{collectionId}";
 
   private final StatisticsService statisticsService;
 
-  @PostMapping(value = {"/api/statistics", "/api/statistics/{collectionId}"})
+  @PostMapping(value = {API_STATISTICS, API_STATISTICS_ID})
   public StatisticsResponse prepareData(@RequestBody final DateRange range,
                                         @PathVariable final Optional<UUID> collectionId) {
-//    final DateRange range = DateRange.builder()
-//      .from(LocalDate.now().minusDays(3))
-//      .to(LocalDate.now().plusDays(1))
-//      .build();
     return statisticsService.prepareData(range, collectionId.orElse(null));
   }
 }
