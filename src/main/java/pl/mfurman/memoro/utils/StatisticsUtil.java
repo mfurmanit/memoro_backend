@@ -18,8 +18,8 @@ import static pl.mfurman.memoro.utils.CommonUtil.toStream;
 
 public interface StatisticsUtil {
 
-  static Map<LocalDate, Long> fillDateRangeWithZeros(Map<LocalDate, Long> inputMap, DateRange dateRange) {
-    long daysBetween = ChronoUnit.DAYS.between(dateRange.getFrom(), dateRange.getTo()) + 1;
+  static Map<LocalDate, Long> fillDateRangeWithZeros(final Map<LocalDate, Long> inputMap, final DateRange dateRange) {
+    final long daysBetween = ChronoUnit.DAYS.between(dateRange.getFrom(), dateRange.getTo()) + 1;
 
     return Stream.iterate(dateRange.getFrom(), date -> date.plusDays(1))
       .limit(daysBetween)
