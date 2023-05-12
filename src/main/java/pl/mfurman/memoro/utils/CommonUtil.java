@@ -1,5 +1,8 @@
 package pl.mfurman.memoro.utils;
 
+import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.core.env.Environment;
 import pl.mfurman.memoro.utils.exceptions.ApiException;
 
 import java.util.Collection;
@@ -16,5 +19,9 @@ public interface CommonUtil {
 
   static <T> Stream<T> toStream(final Collection<T> collection) {
     return Stream.ofNullable(collection).flatMap(Collection::stream);
+  }
+
+  static MailProperties bindProperties(final Environment environment) {
+    return Binder.get(environment).bind("spring.mail", MailProperties.class).get();
   }
 }

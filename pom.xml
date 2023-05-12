@@ -16,6 +16,8 @@
     <description>memoro</description>
     <properties>
         <java.version>17</java.version>
+        <mail.version>3.0.2</mail.version>
+        <commons.version>2.11.0</commons.version>
     </properties>
 
     <dependencies>
@@ -87,6 +89,20 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-envers</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+
+        <!--    MAIL    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${mail.version}</version>
+        </dependency>
+
+        <!--    COMMONS    -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.version}</version>
         </dependency>
     </dependencies>
 

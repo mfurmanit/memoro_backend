@@ -15,8 +15,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+
+import static java.time.LocalDateTime.now;
 
 @Data
 @Entity
@@ -47,6 +50,9 @@ public class User extends BaseEntity implements UserDetails, Serializable {
 
   @Builder.Default
   private boolean active = false;
+
+  @Builder.Default
+  private LocalDateTime activationLinkExpirationDate = now().plusMinutes(20);
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
