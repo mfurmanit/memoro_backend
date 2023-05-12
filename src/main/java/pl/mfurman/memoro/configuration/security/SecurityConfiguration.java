@@ -13,9 +13,12 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import pl.mfurman.memoro.properties.AppProperties;
 import pl.mfurman.memoro.repositories.UserRepository;
 
+import static pl.mfurman.memoro.controllers.UserController.API_USER_ACTIVATE_PREFIX;
 import static pl.mfurman.memoro.controllers.UserController.API_USER_CONTEXT;
 import static pl.mfurman.memoro.controllers.UserController.API_USER_LOGGED_IN;
+import static pl.mfurman.memoro.controllers.UserController.API_USER_REGISTER;
 import static pl.mfurman.memoro.utils.StringConstants.LOGIN;
+import static pl.mfurman.memoro.utils.StringConstants.REGISTER;
 import static pl.mfurman.memoro.utils.StringConstants.SESSION_COOKIE;
 
 @Configuration
@@ -30,9 +33,10 @@ public class SecurityConfiguration {
   public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
     http.authorizeHttpRequests()
       .requestMatchers(
-        "/", API_USER_CONTEXT, API_USER_LOGGED_IN, LOGIN,
+        "/", API_USER_CONTEXT, API_USER_LOGGED_IN, API_USER_REGISTER, LOGIN, REGISTER,
+        API_USER_ACTIVATE_PREFIX + "/**",
         "/**.js", "/**.js.map", "/**.css", "/**.woff2",
-        "/**.woff", "/**.ttf", "/**.ico", "/**.map", "/**.svg",
+        "/**.woff", "/**.ttf", "/**.ico", "/**.map", "/**.svg", "/assets/**",
         "/index.html"
       ).permitAll()
       .anyRequest()
