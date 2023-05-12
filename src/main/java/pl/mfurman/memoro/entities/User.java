@@ -52,7 +52,7 @@ public class User extends BaseEntity implements UserDetails, Serializable {
   private boolean active = false;
 
   @Builder.Default
-  private LocalDateTime activationLinkExpirationDate = now().plusMinutes(5);
+  private LocalDateTime activationLinkExpirationDate = now().plusMinutes(20);
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
