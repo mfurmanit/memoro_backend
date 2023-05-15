@@ -16,4 +16,5 @@ import java.util.UUID;
 public class CardCollectionResponse extends CardCollectionRequest {
   private UUID id;
   private long size;
+  private boolean shared;
 }

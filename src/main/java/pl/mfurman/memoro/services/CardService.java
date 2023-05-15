@@ -34,7 +34,8 @@ public class CardService {
                                    @Nullable final boolean onlyFavorites,
                                    @Nullable final CardSide side,
                                    @Nullable final String value) {
-    return repository.findAll(cardPredicate(collectionId, onlyFavorites, side, value), pageable).map(CardMapper::toResponse);
+    return repository.findAll(cardPredicate(collectionId, onlyFavorites, side, value), pageable)
+      .map(CardMapper::toResponse);
   }
 
   public Card getOneById(final UUID id) {

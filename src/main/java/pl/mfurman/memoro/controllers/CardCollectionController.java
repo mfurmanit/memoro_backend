@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mfurman.memoro.dto.CardCollectionRequest;
 import pl.mfurman.memoro.dto.CardCollectionResponse;
-import pl.mfurman.memoro.enums.CardSide;
+import pl.mfurman.memoro.dto.CardCollectionSharedResponse;
 import pl.mfurman.memoro.services.CardCollectionService;
 
+import java.util.List;
 import java.util.UUID;
 
 import static pl.mfurman.memoro.utils.StringConstants.API;
@@ -28,6 +29,10 @@ public class CardCollectionController {
 
   public final static String API_CARD_COLLECTIONS = API + "/card-collections";
   public final static String API_CARD_COLLECTION = API_CARD_COLLECTIONS + "/{id}";
+  public final static String API_CARD_COLLECTIONS_SHARED = API_CARD_COLLECTIONS + "/shared";
+  public final static String API_CARD_COLLECTION_SHARE = API_CARD_COLLECTION + "/share";
+  public final static String API_CARD_COLLECTION_STOP_SHARING = API_CARD_COLLECTION + "/stop-sharing";
+  public final static String API_CARD_COLLECTION_SAVE = API_CARD_COLLECTION + "/save";
 
   private final CardCollectionService service;
 
@@ -39,8 +44,13 @@ public class CardCollectionController {
     return service.getAll(pageable, value);
   }
 
+  @GetMapping(API_CARD_COLLECTIONS_SHARED)
+  public List<CardCollectionSharedResponse> getAllShared() {
+    return service.getAllShared();
+  }
+
   @PostMapping(API_CARD_COLLECTIONS)
-  public void createCollection(@Valid final @RequestBody CardCollectionRequest request) {
+  public void createCollection(@Valid @RequestBody final CardCollectionRequest request) {
     service.createCollection(request);
   }
 
@@ -52,5 +62,20 @@ public class CardCollectionController {
   @DeleteMapping(API_CARD_COLLECTION)
   public void deleteCollection(@PathVariable final UUID id) {
     service.deleteCollection(id);
+  }
+
+  @PostMapping(API_CARD_COLLECTION_SHARE)
+  public void shareCollection(@PathVariable final UUID id) {
+    service.shareCollection(id);
+  }
+
+  @PostMapping(API_CARD_COLLECTION_STOP_SHARING)
+  public void stopSharingCollection(@PathVariable final UUID id) {
+    service.stopSharingCollection(id);
+  }
+
+  @PostMapping(API_CARD_COLLECTION_SAVE)
+  public void saveCollection(@PathVariable final UUID id) {
+    service.saveCollection(id);
   }
 }

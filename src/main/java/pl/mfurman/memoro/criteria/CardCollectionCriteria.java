@@ -19,4 +19,15 @@ public class CardCollectionCriteria {
 
     return builder.getValue();
   }
+
+  public static Predicate sharedPredicate(final boolean my) {
+    final QCardCollection qCardCollection = QCardCollection.cardCollection;
+    final BooleanBuilder builder = new BooleanBuilder();
+
+    builder.and(qCardCollection.shared.isTrue());
+    builder.and(qCardCollection.parent.isNull());
+    if (my) builder.and(qCardCollection.user.id.eq(getLoggedUserId()));
+
+    return builder.getValue();
+  }
 }

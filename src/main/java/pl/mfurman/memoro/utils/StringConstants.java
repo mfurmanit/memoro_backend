@@ -12,6 +12,8 @@ public interface StringConstants {
   String CANNOT_BE_NULL = "Wskazany obiekt nie może być pusty.";
   String ENTITY_NOT_FOUND = "Obiekt o podanym identyfikatorze nie istnieje.";
   String WRONG_CONTEXT = "Wskazana kolekcja nie należy do tego użytkownika.";
+  String NOT_SHARED = "Wskazana kolekcja nie została udostępniona.";
+  String CANNOT_SAVE = "Nie można zapisać kolekcji udostępnionej przez siebie.";
   String GLOBAL_ERROR = "Wystąpił nieoczekiwany problem.";
   String CANNOT_ANSWER = "Nie można dokonać odpowiedzi, ponieważ proces nauki nie został jeszcze rozpoczęty.";
   String BAD_COLLECTION = "Wskazana karta nie należy do kolekcji, która jest w trakcie nauki.";
