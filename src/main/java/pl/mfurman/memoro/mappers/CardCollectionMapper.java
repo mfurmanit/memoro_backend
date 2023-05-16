@@ -20,9 +20,8 @@ public interface CardCollectionMapper {
       .icon(collection.getIcon())
       .size(collection.getSize())
       .shared(collection.isShared())
-      .my(my)
-      .shared(collection.isShared())
       .createdDate(collection.getCreatedDate())
+      .my(my)
       .build();
   }
 
