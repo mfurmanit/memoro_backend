@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -37,5 +39,12 @@ public class BaseEntity {
   @Column
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime modifiedDate;
+
+  @CreatedBy
+  @Column(updatable = false)
+  private UUID createdById;
+
+  @LastModifiedBy
+  private UUID modifiedById;
 }
 

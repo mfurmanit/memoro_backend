@@ -1,5 +1,6 @@
 package pl.mfurman.memoro.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +44,10 @@ public class CardCollection extends BaseEntity {
 
   @Column(nullable = false)
   @Builder.Default
+  private boolean shared = false;
+
+  @Column(nullable = false)
+  @Builder.Default
   private long size = 0;
 
   @NotNull
@@ -51,6 +56,13 @@ public class CardCollection extends BaseEntity {
   @JoinColumn(name = "id_user", referencedColumnName = "id")
   @EqualsAndHashCode.Exclude
   private User user;
+
+  @Nullable
+  @ManyToOne
+  @NotAudited
+  @JoinColumn(name = "id_parent", referencedColumnName = "id")
+  @EqualsAndHashCode.Exclude
+  private CardCollection parent;
 
   @NotAudited
   @Builder.Default

@@ -22,7 +22,11 @@ public class CardCriteria {
     final BooleanBuilder builder = new BooleanBuilder();
 
     builder.and(qCard.collection.id.eq(collectionId));
-    builder.and(qCard.collection.user.id.eq(getLoggedUserId()));
+    builder.and(
+      qCard.collection.user.id.eq(getLoggedUserId()).or(
+        qCard.collection.shared.isTrue()
+      )
+    );
 
     if (onlyFavorites) builder.and(qCard.isFavorite.isTrue());
 

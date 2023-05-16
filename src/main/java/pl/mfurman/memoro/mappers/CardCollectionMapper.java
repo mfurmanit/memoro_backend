@@ -5,11 +5,13 @@ import pl.mfurman.memoro.dto.CardCollectionResponse;
 import pl.mfurman.memoro.entities.CardCollection;
 import pl.mfurman.memoro.entities.User;
 
+import java.util.HashSet;
+
 import static pl.mfurman.memoro.utils.StringConstants.CANNOT_BE_NULL;
 
 public interface CardCollectionMapper {
 
-  static CardCollectionResponse toResponse(final CardCollection collection) {
+  static CardCollectionResponse toResponse(final CardCollection collection, final boolean my) {
     if (collection == null) return null;
 
     return CardCollectionResponse.builder()
@@ -17,6 +19,9 @@ public interface CardCollectionMapper {
       .name(collection.getName())
       .icon(collection.getIcon())
       .size(collection.getSize())
+      .shared(collection.isShared())
+      .createdDate(collection.getCreatedDate())
+      .my(my)
       .build();
   }
 
@@ -37,6 +42,17 @@ public interface CardCollectionMapper {
 
     return toEntity(collection, request, size).toBuilder()
       .user(user)
+      .build();
+  }
+
+  static CardCollection copyEntity(final CardCollection collection, final User user) {
+    if (collection == null) return null;
+
+    return collection.toBuilder()
+      .id(null)
+      .user(user)
+      .parent(collection)
+      .cards(new HashSet<>())
       .build();
   }
 }

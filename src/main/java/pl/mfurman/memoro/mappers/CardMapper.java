@@ -5,6 +5,7 @@ import pl.mfurman.memoro.dto.CardResponse;
 import pl.mfurman.memoro.entities.Card;
 import pl.mfurman.memoro.entities.CardCollection;
 
+import static java.time.LocalDateTime.now;
 import static pl.mfurman.memoro.utils.StringConstants.CANNOT_BE_NULL;
 
 public interface CardMapper {
@@ -35,6 +36,20 @@ public interface CardMapper {
     if (request == null) throw new RuntimeException(CANNOT_BE_NULL);
 
     return toEntity(card, request).toBuilder()
+      .collection(collection)
+      .build();
+  }
+
+  static Card copyEntity(final Card card, final CardCollection collection) {
+    if (collection == null) return null;
+
+    return card.toBuilder()
+      .id(null)
+      .eFactor(2.5)
+      .interval(0)
+      .repetition(0)
+      .nextReviewDate(now())
+      .reviewed(false)
       .collection(collection)
       .build();
   }

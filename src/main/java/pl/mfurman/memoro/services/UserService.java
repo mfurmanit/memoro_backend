@@ -34,6 +34,7 @@ import static pl.mfurman.memoro.utils.StringConstants.ACTIVATION_SUBJECT;
 import static pl.mfurman.memoro.utils.StringConstants.CANNOT_ACTIVATE;
 import static pl.mfurman.memoro.utils.StringConstants.EXPIRATION_SUBJECT;
 import static pl.mfurman.memoro.utils.StringConstants.USER_ACTIVATED;
+import static pl.mfurman.memoro.utils.UserUtil.getLoggedUserId;
 import static pl.mfurman.memoro.utils.UserUtil.getPrincipal;
 
 @Service
@@ -108,5 +109,9 @@ public class UserService {
 
   public User getOne(final UUID id) {
     return getOrThrow(repository.findById(id));
+  }
+
+  public User getLogged() {
+    return getOne(getLoggedUserId());
   }
 }
