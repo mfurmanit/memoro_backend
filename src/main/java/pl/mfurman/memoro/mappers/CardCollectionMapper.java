@@ -2,7 +2,6 @@ package pl.mfurman.memoro.mappers;
 
 import pl.mfurman.memoro.dto.CardCollectionRequest;
 import pl.mfurman.memoro.dto.CardCollectionResponse;
-import pl.mfurman.memoro.dto.CardCollectionSharedResponse;
 import pl.mfurman.memoro.entities.CardCollection;
 import pl.mfurman.memoro.entities.User;
 
@@ -12,7 +11,7 @@ import static pl.mfurman.memoro.utils.StringConstants.CANNOT_BE_NULL;
 
 public interface CardCollectionMapper {
 
-  static CardCollectionResponse toResponse(final CardCollection collection) {
+  static CardCollectionResponse toResponse(final CardCollection collection, final boolean my) {
     if (collection == null) return null;
 
     return CardCollectionResponse.builder()
@@ -21,20 +20,8 @@ public interface CardCollectionMapper {
       .icon(collection.getIcon())
       .size(collection.getSize())
       .shared(collection.isShared())
-      .build();
-  }
-
-  static CardCollectionSharedResponse toSharedResponse(final CardCollection collection,
-                                                       final boolean my) {
-    if (collection == null) return null;
-
-    return CardCollectionSharedResponse.builder()
-      .id(collection.getId())
-      .name(collection.getName())
-      .icon(collection.getIcon())
-      .size(collection.getSize())
       .my(my)
-      .shared(true)
+      .shared(collection.isShared())
       .createdDate(collection.getCreatedDate())
       .build();
   }

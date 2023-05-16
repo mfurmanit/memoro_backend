@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -16,5 +17,7 @@ import java.util.UUID;
 public class CardCollectionResponse extends CardCollectionRequest {
   private UUID id;
   private long size;
+  private boolean my;
   private boolean shared;
+  private LocalDateTime createdDate;
 }

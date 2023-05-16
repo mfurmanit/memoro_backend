@@ -10,12 +10,14 @@ import static pl.mfurman.memoro.utils.UserUtil.getLoggedUserId;
 
 public class CardCollectionCriteria {
 
-  public static Predicate collectionPredicate(@Nullable final String value) {
+  public static Predicate collectionPredicate(@Nullable final String value,
+                                              @Nullable final Boolean omitShared) {
     final QCardCollection qCardCollection = QCardCollection.cardCollection;
     final BooleanBuilder builder = new BooleanBuilder();
 
     builder.and(qCardCollection.user.id.eq(getLoggedUserId()));
     if (hasText(value)) builder.and(qCardCollection.name.containsIgnoreCase(value));
+    if (Boolean.TRUE.equals(omitShared)) builder.and(qCardCollection.shared.isFalse());
 
     return builder.getValue();
   }
@@ -25,7 +27,6 @@ public class CardCollectionCriteria {
     final BooleanBuilder builder = new BooleanBuilder();
 
     builder.and(qCardCollection.shared.isTrue());
-    builder.and(qCardCollection.parent.isNull());
     if (my) builder.and(qCardCollection.user.id.eq(getLoggedUserId()));
 
     return builder.getValue();

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.mfurman.memoro.dto.CardCollectionRequest;
 import pl.mfurman.memoro.dto.CardCollectionResponse;
-import pl.mfurman.memoro.dto.CardCollectionSharedResponse;
 import pl.mfurman.memoro.entities.Card;
 import pl.mfurman.memoro.entities.CardCollection;
 import pl.mfurman.memoro.mappers.CardCollectionMapper;
@@ -43,8 +42,13 @@ public class CardCollectionService {
   private final CardRepository cardRepository;
   private final CardCollectionRepository repository;
 
-  public Page<CardCollectionResponse> getAll(final Pageable pageable, @Nullable final String value) {
-    return repository.findAll(collectionPredicate(value), pageable).map(CardCollectionMapper::toResponse);
+  public Page<CardCollectionResponse> getAll(final Pageable pageable,
+                                             @Nullable final String value,
+                                             @Nullable final Boolean omitShared) {
+    return repository.findAll(collectionPredicate(value, omitShared), pageable)
+      .map(collection -> CardCollectionMapper.toResponse(
+        collection, getLoggedUserId().equals(collection.getUser().getId())
+      ));
   }
 
   public CardCollection getOneById(final UUID id) {
@@ -74,14 +78,14 @@ public class CardCollectionService {
     return collection;
   }
 
-  public List<CardCollectionSharedResponse> getAllShared() {
+  public List<CardCollectionResponse> getAllShared() {
     final List<CardCollection> all = repository.findAll(sharedPredicate(false));
     final List<CardCollection> my = repository.findAll(sharedPredicate(true));
 
     final Set<UUID> myIdentifiers = toStream(my).map(CardCollection::getId).collect(toSet());
 
     return toStream(all)
-      .map(collection -> CardCollectionMapper.toSharedResponse(
+      .map(collection -> CardCollectionMapper.toResponse(
         collection,
         myIdentifiers.contains(collection.getId())
       )).collect(Collectors.toList());
@@ -124,6 +128,7 @@ public class CardCollectionService {
   public void stopSharingCollection(final UUID id) {
     final CardCollection collection = getMySharedById(id);
     collection.setShared(false);
+    collection.setParent(null);
     repository.save(collection);
   }
 

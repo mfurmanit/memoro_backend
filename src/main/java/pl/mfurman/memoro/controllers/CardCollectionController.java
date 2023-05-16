@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mfurman.memoro.dto.CardCollectionRequest;
 import pl.mfurman.memoro.dto.CardCollectionResponse;
-import pl.mfurman.memoro.dto.CardCollectionSharedResponse;
 import pl.mfurman.memoro.services.CardCollectionService;
 
 import java.util.List;
@@ -39,13 +38,14 @@ public class CardCollectionController {
   @GetMapping(API_CARD_COLLECTIONS)
   public Page<CardCollectionResponse> getAll(
     @PageableDefault final Pageable pageable,
-    @RequestParam(value = "value", required = false) final String value
+    @RequestParam(value = "value", required = false) final String value,
+    @RequestParam(value = "omitShared", required = false) final Boolean omitShared
   ) {
-    return service.getAll(pageable, value);
+    return service.getAll(pageable, value, omitShared);
   }
 
   @GetMapping(API_CARD_COLLECTIONS_SHARED)
-  public List<CardCollectionSharedResponse> getAllShared() {
+  public List<CardCollectionResponse> getAllShared() {
     return service.getAllShared();
   }
 

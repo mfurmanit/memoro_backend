@@ -31,6 +31,7 @@ import static java.util.stream.Collectors.toList;
 import static pl.mfurman.memoro.utils.CommonUtil.toStream;
 import static pl.mfurman.memoro.utils.StatisticsUtil.fillDateRangeWithZeros;
 import static pl.mfurman.memoro.utils.StatisticsUtil.mapCards;
+import static pl.mfurman.memoro.utils.UserUtil.getLoggedUserId;
 
 @Service
 @RequiredArgsConstructor
@@ -101,6 +102,7 @@ public class StatisticsService {
       .addProjection(AuditEntity.property("modifiedDate"))
       .add(AuditEntity.revisionType().eq(RevisionType.MOD))
       .add(AuditEntity.property("reviewed").eq(true))
+      .add(AuditEntity.property("modifiedById").eq(getLoggedUserId()))
       .add(AuditEntity.property("modifiedDate").between(
         dateRange.getFrom().atStartOfDay(),
         dateRange.getTo().atTime(LocalTime.MAX)
@@ -128,6 +130,7 @@ public class StatisticsService {
       .addProjection(AuditEntity.property("modifiedDate"))
       .add(AuditEntity.revisionType().eq(RevisionType.MOD))
       .add(AuditEntity.property("reviewed").eq(true))
+      .add(AuditEntity.property("modifiedById").eq(getLoggedUserId()))
       .add(AuditEntity.property("modifiedDate").hasChanged())
       .add(AuditEntity.property("modifiedDate").between(
         dateRange.getFrom().atStartOfDay(),
