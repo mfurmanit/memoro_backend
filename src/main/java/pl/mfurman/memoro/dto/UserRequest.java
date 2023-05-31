@@ -30,8 +30,8 @@ public class UserRequest implements Serializable {
   @NotBlank
   private String username;
 
-  @NotBlank
   @Email
+  @NotBlank
   private String email;
 
   @NotBlank

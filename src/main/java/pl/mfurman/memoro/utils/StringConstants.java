@@ -23,6 +23,8 @@ public interface StringConstants {
   String ACTIVATION_SUBJECT = "Aktywacja konta w aplikacji Memoro";
   String EXPIRATION_SUBJECT = "Link aktywacyjny wygasł";
   String CANNOT_LOAD_TEMPLATE = "Nie udało się wczytać wskazanego szablonu.";
+  String WRONG_DATA = "Wprowadzono nieprawidłowe dane w formularzu.";
+  String ACCESS_DENIED_ERROR = "Nie posiadasz uprawnień do wykonania wskazanej akcji.";
 
   String PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$!%&()*+,\\-./:;<=>?@\\[\\]^_`{|}~])" +
     "[a-zA-Z\\d#$!%&()*+,\\-./:;<=>?@\\[\\]^_`{|}~]{8,40}$";
