@@ -143,7 +143,10 @@ public class CardCollectionService {
   public void saveCollection(final UUID id) {
     final CardCollection collection = getOneSharedById(id);
 
-    final CardCollection copedCollection = copyEntity(collection, userService.getLogged());
+    final CardCollection copedCollection = copyEntity(
+      collection, userService.getLogged()
+    );
+
     final Set<Card> copiedCards = toStream(collection.getCards())
       .map(card -> CardMapper.copyEntity(card, copedCollection))
       .collect(toSet());
