@@ -53,6 +53,7 @@ public interface CardCollectionMapper {
       .user(user)
       .parent(collection)
       .cards(new HashSet<>())
+      .shared(false)
       .build();
   }
 }

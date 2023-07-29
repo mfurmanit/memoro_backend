@@ -16,4 +16,5 @@ import java.util.UUID;
 public class CardResponse extends CardRequest {
   private UUID id;
   private boolean isFavorite;
+  private String collectionName;
 }

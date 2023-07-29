@@ -39,14 +39,16 @@ public class CardScheduler {
 
   public Card answer(final UUID cardId, final Answer answer) {
     final Card card = cardService.getOneById(cardId);
-    if (!card.getCollection().getId().equals(collectionId)) throw new ApiException(BAD_COLLECTION);
+    if (!card.getCollection().getId().equals(collectionId))
+      throw new ApiException(BAD_COLLECTION);
     checkAnswer(card, answer);
     cardService.saveAfterAnswer(card);
     if (!Answer.AGAIN.equals(answer)) reviewQueue.remove();
-    return reviewQueue.peek();
+    return getNextCardToReview();
   }
 
-  private void checkAnswer(final Card card, final Answer answer) {
+  private void checkAnswer(final Card card,
+                           final Answer answer) {
     double eFactor = card.getEFactor();
     int repetition = card.getRepetition();
     int interval = card.getInterval();
@@ -60,16 +62,14 @@ public class CardScheduler {
     } else {
       final int quality = answer.getQuality();
 
-      eFactor = Math.max(eFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality)) * 0.02), 1.3);
+      eFactor = Math.max(eFactor + (
+        0.1 - (5 - quality) * (0.08 + (5 - quality)) * 0.02), 1.3
+      );
       repetition = repetition + 1;
 
-      if (repetition == 1) {
-        interval = 1;
-      } else if (repetition == 2) {
-        interval = 6;
-      } else {
-        interval = (int) Math.round((interval - 1) * eFactor);
-      }
+      if (repetition == 1) interval = 1;
+      else if (repetition == 2) interval = 6;
+      else interval = (int) Math.round((interval - 1) * eFactor);
     }
 
     card.setEFactor(eFactor);

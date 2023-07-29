@@ -44,16 +44,22 @@ public class EmailService {
   private final Environment environment;
   private final AppProperties properties;
 
-  public void sendActivationMail(final String subject, final UUID id, final String receiver) {
+  public void sendActivationMail(final String subject, final UUID id,
+                                 final String receiver) {
     try {
 
       final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-      final InputStream inputStream = classLoader.getResourceAsStream("templates/activation-mail.html");
+      final InputStream inputStream = classLoader.getResourceAsStream(
+        "templates/activation-mail.html"
+      );
       final String url = properties.getUrl() + API_USER_ACTIVATE_PREFIX + "/" + id;
 
       if (inputStream == null) throw new ApiException(CANNOT_LOAD_TEMPLATE);
 
-      final String mail = IOUtils.toString(inputStream, StandardCharsets.UTF_8).replace("%URL%", url);
+      final String mail = IOUtils
+        .toString(inputStream, StandardCharsets.UTF_8)
+        .replace("%URL%", url);
+
       sendMailAsynchronously(receiver, subject, mail);
 
     } catch (final Exception exception) {

@@ -19,6 +19,7 @@ public interface CardMapper {
       .back(card.getBack())
       .isFavorite(card.isFavorite())
       .collectionId(card.getCollection().getId())
+      .collectionName(card.getCollection().getName())
       .build();
   }
 

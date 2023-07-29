@@ -78,11 +78,11 @@ public class StatisticsService {
         // Store the minute-of-hour field.
         int minutes = time.date().getMinute();
 
-        // Determine how many minutes we are above the nearest 10-minute interval.
+        // Determine how many minutes we are above the nearest 5-minute interval.
         int minutesOver = minutes % 5;
 
         // Truncate the time to the minute field (zeroing out seconds and nanoseconds),
-        // and force the number of minutes to be at a 10-minute interval.
+        // and force the number of minutes to be at a 5-minute interval.
         return time.date().truncatedTo(ChronoUnit.MINUTES).withMinute(minutes - minutesOver);
       }, new TimeDifferenceCollector()));
 
@@ -110,7 +110,9 @@ public class StatisticsService {
       .addOrder(AuditEntity.id().desc());
 
     if (collectionId != null)
-      return auditQuery.add(AuditEntity.property("collection_id").eq(collectionId));
+      return auditQuery
+        .add(AuditEntity.property("collection_id")
+        .eq(collectionId));
     else return auditQuery;
   }
 
