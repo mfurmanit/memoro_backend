@@ -1,3 +1,5 @@
+<img  width="150" height="150" src="readme/icon.png" alt="Memoro icon">
+
 # Memoro
 
 Project carried out for master's degree. 
@@ -25,3 +27,19 @@ There are also graphs / statistics (e.g. from the number of cards displayed / le
 **QueryDSL** - a library that facilitates the creation of complex queries
 
 **PostgreSQL** - relational database that was used to store data
+
+## Images
+<details>
+<summary>
+  Expand to show images!
+</summary>
+  <img src="readme/collections.png"/> <br />
+  <hr style="margin-top: 20px; margin-bottom: 20px;"/>
+  <img src="readme/creating_collection.png"/> <br />
+  <hr style="margin-top: 20px; margin-bottom: 20px;"/>
+  <img src="readme/filter.png"/> <br />
+  <hr style="margin-top: 20px; margin-bottom: 20px;"/>
+  <img src="readme/learning.png"/> <br />
+  <hr style="margin-top: 20px; margin-bottom: 20px;"/>
+  <img src="readme/statistics.png"/> <br />
+</details>
